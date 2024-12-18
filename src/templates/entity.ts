@@ -1,6 +1,6 @@
-export default `import type { KAPLAYCtx } from "kaplay";
+export default `import type { GameObj, KAPLAYCtx } from "kaplay";
 
-export function <%name%>(k: KAPLAYCtx): void {
+export function <%name%>(k: KAPLAYCtx): GameObj {
   return k.make(["<%name%>"]);
 }
 `
