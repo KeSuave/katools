@@ -1,6 +1,7 @@
 import {Args, Command} from '@oclif/core'
 import fs from 'node:fs'
 
+import Template from '../template.js'
 import entityTemplate from '../templates/entity.js'
 import {projectPath} from '../utils.js'
 
@@ -35,7 +36,11 @@ export default class Entity extends Command {
 
   private writeNewComponent(name: string): void {
     const componentPath = projectPath('src', 'entities', `${name}.ts`)
-    const template = entityTemplate
+    const tpl = new Template({
+      close: '%>',
+      open: '<%',
+    })
+    const template = tpl.render(entityTemplate, {name})
 
     fs.writeFileSync(componentPath, template)
 

@@ -1,14 +1,14 @@
 export default `import type { Comp, KAPLAYCtx } from "kaplay";
 
-export interface {{component}}Component extends Comp {
+export interface <%name%>Component extends Comp {
 
 }
 
-type {{component}}This = GameObj<{{component}}>;
+type <%name%>This = GameObj<<%name%>>;
 
-export function {{component}}(k: KAPLAYCtx): void {
+export function <%name%>(k: KAPLAYCtx): void {
   return {
-    id: "{{component}}",
+    id: "<%name%>",
   }
 }
 `

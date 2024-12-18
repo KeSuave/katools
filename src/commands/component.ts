@@ -1,6 +1,7 @@
 import {Args, Command} from '@oclif/core'
 import fs from 'node:fs'
 
+import Template from '../template.js'
 import componentTemplate from '../templates/component.js'
 import {projectPath} from '../utils.js'
 
@@ -35,7 +36,11 @@ export default class Component extends Command {
 
   private writeNewComponent(name: string): void {
     const componentPath = projectPath('src', 'components', `${name}.ts`)
-    const template = componentTemplate
+    const tpl = new Template({
+      close: '%>',
+      open: '<%',
+    })
+    const template = tpl.render(componentTemplate, {name})
 
     fs.writeFileSync(componentPath, template)
 
