@@ -20,7 +20,7 @@ $ npm install -g katools
 $ katools COMMAND
 running command...
 $ katools (--version)
-katools/0.0.0 win32-x64 node-v20.11.1
+katools/0.1.0 win32-x64 node-v20.11.1
 $ katools --help [COMMAND]
 USAGE
   $ katools COMMAND
@@ -29,10 +29,10 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`katools component [FILE]`](#katools-component-file)
-* [`katools entity [FILE]`](#katools-entity-file)
+* [`katools component NAME`](#katools-component-name)
+* [`katools entity NAME`](#katools-entity-name)
 * [`katools help [COMMAND]`](#katools-help-command)
-* [`katools init [FILE]`](#katools-init-file)
+* [`katools init`](#katools-init)
 * [`katools plugins`](#katools-plugins)
 * [`katools plugins add PLUGIN`](#katools-plugins-add-plugin)
 * [`katools plugins:inspect PLUGIN...`](#katools-pluginsinspect-plugin)
@@ -43,55 +43,47 @@ USAGE
 * [`katools plugins uninstall [PLUGIN]`](#katools-plugins-uninstall-plugin)
 * [`katools plugins unlink [PLUGIN]`](#katools-plugins-unlink-plugin)
 * [`katools plugins update`](#katools-plugins-update)
-* [`katools scene [FILE]`](#katools-scene-file)
+* [`katools scene NAME`](#katools-scene-name)
 
-## `katools component [FILE]`
+## `katools component NAME`
 
-describe the command here
-
-```
-USAGE
-  $ katools component [FILE] [-f] [-n <value>]
-
-ARGUMENTS
-  FILE  file to read
-
-FLAGS
-  -f, --force
-  -n, --name=<value>  name to print
-
-DESCRIPTION
-  describe the command here
-
-EXAMPLES
-  $ katools component
-```
-
-_See code: [src/commands/component.ts](https://github.com/KeSuave/katools/blob/v0.0.0/src/commands/component.ts)_
-
-## `katools entity [FILE]`
-
-describe the command here
+Adds a new component to the project
 
 ```
 USAGE
-  $ katools entity [FILE] [-f] [-n <value>]
+  $ katools component NAME
 
 ARGUMENTS
-  FILE  file to read
-
-FLAGS
-  -f, --force
-  -n, --name=<value>  name to print
+  NAME  name of component
 
 DESCRIPTION
-  describe the command here
+  Adds a new component to the project
 
 EXAMPLES
-  $ katools entity
+  $ katools component movement
 ```
 
-_See code: [src/commands/entity.ts](https://github.com/KeSuave/katools/blob/v0.0.0/src/commands/entity.ts)_
+_See code: [src/commands/component.ts](https://github.com/KeSuave/katools/blob/v0.1.0/src/commands/component.ts)_
+
+## `katools entity NAME`
+
+Adds a new entity to project
+
+```
+USAGE
+  $ katools entity NAME
+
+ARGUMENTS
+  NAME  name of entity
+
+DESCRIPTION
+  Adds a new entity to project
+
+EXAMPLES
+  $ katools entity player
+```
+
+_See code: [src/commands/entity.ts](https://github.com/KeSuave/katools/blob/v0.1.0/src/commands/entity.ts)_
 
 ## `katools help [COMMAND]`
 
@@ -113,21 +105,16 @@ DESCRIPTION
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v6.2.19/src/commands/help.ts)_
 
-## `katools init [FILE]`
+## `katools init`
 
 Initializes a new KAPLAY project.
 
 ```
 USAGE
-  $ katools init [FILE] [-n <value>] [-t top-down|platformer]
-
-ARGUMENTS
-  FILE  file to read
+  $ katools init [-n <value>]
 
 FLAGS
-  -n, --name=<value>       [default: My Game] Name of your game.
-  -t, --template=<option>  [default: top-down] Game template to use.
-                           <options: top-down|platformer>
+  -n, --name=<value>  [default: katools] name of your game.
 
 DESCRIPTION
   Initializes a new KAPLAY project.
@@ -136,7 +123,7 @@ EXAMPLES
   $ katools init
 ```
 
-_See code: [src/commands/init.ts](https://github.com/KeSuave/katools/blob/v0.0.0/src/commands/init.ts)_
+_See code: [src/commands/init.ts](https://github.com/KeSuave/katools/blob/v0.1.0/src/commands/init.ts)_
 
 ## `katools plugins`
 
@@ -428,27 +415,23 @@ DESCRIPTION
 
 _See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v5.4.22/src/commands/plugins/update.ts)_
 
-## `katools scene [FILE]`
+## `katools scene NAME`
 
-describe the command here
+adds a scene to the project
 
 ```
 USAGE
-  $ katools scene [FILE] [-f] [-n <value>]
+  $ katools scene NAME
 
 ARGUMENTS
-  FILE  file to read
-
-FLAGS
-  -f, --force
-  -n, --name=<value>  name to print
+  NAME  name of scene
 
 DESCRIPTION
-  describe the command here
+  adds a scene to the project
 
 EXAMPLES
-  $ katools scene
+  $ katools scene game
 ```
 
-_See code: [src/commands/scene.ts](https://github.com/KeSuave/katools/blob/v0.0.0/src/commands/scene.ts)_
+_See code: [src/commands/scene.ts](https://github.com/KeSuave/katools/blob/v0.1.0/src/commands/scene.ts)_
 <!-- commandsstop -->
