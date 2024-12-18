@@ -1,0 +1,11 @@
+{
+  "extends": ["oclif", "oclif-typescript", "prettier"],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "rules": {
+        "perfectionist/sort-classes": "off"
+      }
+    }
+  ]
+}
