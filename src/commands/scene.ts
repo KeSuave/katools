@@ -1,7 +1,7 @@
-import Template from '@deno-library/template'
 import {Args, Command} from '@oclif/core'
 import fs from 'node:fs'
 
+import Template from '../template.js'
 import baseSceneTemplate from '../templates/scenes/base.js'
 import {projectPath} from '../utils.js'
 

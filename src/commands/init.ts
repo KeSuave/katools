@@ -1,8 +1,8 @@
-import Template from '@deno-library/template'
 import {Command, Flags} from '@oclif/core'
 import fs from 'node:fs'
 import path from 'node:path'
 
+import Template from '../template.js'
 import bootSceneTemplate from '../templates/scenes/boot.js'
 import gameSceneTemplate from '../templates/scenes/game.js'
 import gameOverSceneTemplate from '../templates/scenes/game-over.js'
@@ -29,8 +29,6 @@ export default class Init extends Command {
     this.writeMenuScene(gameName)
     this.writeGameScene()
     this.writeGameOverScene()
-
-    this.log('Done!')
   }
 
   private checkFolderStructure(): void {
@@ -47,8 +45,6 @@ export default class Init extends Command {
     const template = sceneManagerTemplate
 
     fs.writeFileSync(projectPath('src', 'scenes', 'index.ts'), template)
-
-    this.log('Wrote scene manager file')
   }
 
   private writeBootScene(): void {
