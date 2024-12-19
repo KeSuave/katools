@@ -4,7 +4,7 @@ export interface <%pascalCaseName%>Component extends Comp {
 
 }
 
-type <%name%>This = GameObj<<%pascalCaseName%>Component>;
+type <%pascalCaseName%>This = GameObj<<%pascalCaseName%>Component>;
 
 export function <%name%>(k: KAPLAYCtx): <%pascalCaseName%>Component {
   return {
