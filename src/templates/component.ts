@@ -1,12 +1,12 @@
 export default `import type { Comp, GameObj, KAPLAYCtx } from "kaplay";
 
-export interface <%name%>Component extends Comp {
+export interface <%pascalCaseName%>Component extends Comp {
 
 }
 
-type <%name%>This = GameObj<<%name%>Component>;
+type <%name%>This = GameObj<<%pascalCaseName%>Component>;
 
-export function <%name%>(k: KAPLAYCtx): <%name%>Component {
+export function <%name%>(k: KAPLAYCtx): <%pascalCaseName%>Component {
   return {
     id: "<%name%>",
   }

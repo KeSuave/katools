@@ -1,4 +1,5 @@
 import {Args, Command} from '@oclif/core'
+import {camelCase, pascalCase} from 'change-case'
 import fs from 'node:fs'
 
 import Template from '../template.js'
@@ -40,7 +41,11 @@ export default class Entity extends Command {
       close: '%>',
       open: '<%',
     })
-    const template = tpl.render(entityTemplate, {name})
+    const template = tpl.render(entityTemplate, {
+      camelCaseName: camelCase(name),
+      name,
+      pascalCaseName: pascalCase(name),
+    })
 
     fs.writeFileSync(componentPath, template)
 
