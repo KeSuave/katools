@@ -8,6 +8,7 @@ export const k = kaplay({
   stretch: <%stretch%>,
   letterbox: <%letterbox%>,
   debugKey: "<%debugKey%>",
+  debug: true, // TODO: set this to false in production
   background: [20, 20, 20],
   plugins: [],
 });
