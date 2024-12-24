@@ -1,6 +1,6 @@
-export default `import type { KAPLAYCtx } from "kaplay";
+export default `import type { GameCtx } from "../context";
 
-export function menuScene(k: KAPLAYCtx): void {
+export function menuScene(k: GameCtx): void {
   const scene = k.add([]);
 
   scene.add([

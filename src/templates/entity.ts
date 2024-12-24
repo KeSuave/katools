@@ -1,6 +1,8 @@
-export default `import type { GameObj, KAPLAYCtx } from "kaplay";
+export default `import type { GameObj } from "kaplay";
 
-export function make<%pascalCaseName%>(k: KAPLAYCtx): GameObj {
+import type { GameCtx } from "../context";
+
+export function make<%pascalCaseName%>(k: GameCtx): GameObj {
   return k.make(["<%name%>"]);
 }
 `

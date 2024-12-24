@@ -4,7 +4,10 @@
     {
       "files": ["*.ts"],
       "rules": {
-        "perfectionist/sort-classes": "off"
+        "perfectionist/sort-classes": "off",
+        "perfectionist/sort-interfaces": "off",
+        "perfectionist/sort-imports": "off",
+        "perfectionist/sort-objects": "off"
       }
     }
   ]

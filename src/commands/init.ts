@@ -2,21 +2,37 @@ import {Command, Flags} from '@oclif/core'
 import fs from 'node:fs'
 import path from 'node:path'
 
+import {confirm, input, number} from '@inquirer/prompts'
 import Template from '../template.js'
+import contextTemplate from '../templates/context.js'
 import bootSceneTemplate from '../templates/scenes/boot.js'
-import gameSceneTemplate from '../templates/scenes/game.js'
 import gameOverSceneTemplate from '../templates/scenes/game-over.js'
+import gameSceneTemplate from '../templates/scenes/game.js'
 import sceneManagerTemplate from '../templates/scenes/manager.js'
 import menuSceneTemplate from '../templates/scenes/menu.js'
 import {projectPath} from '../utils.js'
 
+interface GameContextOptions {
+  width: number
+  height: number
+  stretch: boolean
+  letterbox: boolean
+  debugKey: string
+}
+
 export default class Init extends Command {
+  private tpl = new Template({
+    close: '%>',
+    open: '<%',
+  })
+
   static override description = 'Initializes a new KAPLAY project.'
 
   static override examples = ['<%= config.bin %> <%= command.id %>']
 
   static override flags = {
     name: Flags.string({char: 'n', default: path.basename(process.cwd()), description: 'name of your game.'}),
+    skip: Flags.boolean({char: 's', description: 'skip prompts and use default values.'}),
   }
 
   public async run(): Promise<void> {
@@ -24,6 +40,20 @@ export default class Init extends Command {
     const gameName = flags.name
 
     this.checkFolderStructure()
+
+    const gameContextOptions: GameContextOptions = {
+      width: 1920,
+      height: 1080,
+      stretch: true,
+      letterbox: true,
+      debugKey: 'u',
+    }
+
+    if (!flags.skip) {
+      this.askGameContextOptions(gameContextOptions)
+    }
+
+    this.writeGameContext(gameContextOptions)
     this.writeSceneManager()
     this.writeBootScene()
     this.writeMenuScene(gameName)
@@ -41,6 +71,41 @@ export default class Init extends Command {
     }
   }
 
+  private async askGameContextOptions(options: GameContextOptions): Promise<void> {
+    options.width =
+      (await number({message: 'Enter the width of your game:', default: options.width, required: true})) ??
+      options.width
+    options.height =
+      (await number({message: 'Enter the height of your game:', default: options.height, required: true})) ??
+      options.height
+    options.stretch = await confirm({
+      message: 'Would you like to stretch the game?',
+      default: options.stretch,
+    })
+    options.letterbox = await confirm({
+      message: 'Would you like to use letterboxing?',
+      default: options.letterbox,
+    })
+    options.debugKey = await input({
+      message: 'Enter the debug key for your game:',
+      default: options.debugKey,
+      required: true,
+      validate: (value) => value !== '' && value.length === 1,
+    })
+  }
+
+  private writeGameContext(options: GameContextOptions): void {
+    const template = this.tpl.render(contextTemplate, {
+      width: options.width,
+      height: options.height,
+      stretch: options.stretch ? 'true' : 'false',
+      letterbox: options.letterbox ? 'true' : 'false',
+      debugKey: options.debugKey,
+    })
+
+    fs.writeFileSync(projectPath('src', 'context.ts'), template)
+  }
+
   private writeSceneManager(): void {
     const template = sceneManagerTemplate
 
@@ -54,11 +119,7 @@ export default class Init extends Command {
   }
 
   private writeMenuScene(gameName: string): void {
-    const tpl = new Template({
-      close: '%>',
-      open: '<%',
-    })
-    const template = tpl.render(menuSceneTemplate, {gameName})
+    const template = this.tpl.render(menuSceneTemplate, {gameName})
 
     fs.writeFileSync(projectPath('src', 'scenes', 'menu.ts'), template)
   }
