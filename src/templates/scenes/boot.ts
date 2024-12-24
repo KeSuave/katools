@@ -1,6 +1,6 @@
-export default `import type { GameCtx } from "../context";
+export default `import { k } from "../context";
 
-export function bootScene(k: GameCtx): void {
+export function bootScene(): void {
   const scene = k.add([]);
 
   let currentProgress = 0;

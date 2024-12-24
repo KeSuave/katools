@@ -1,6 +1,6 @@
-export default `import type { GameCtx } from "../context";
+export default `import { k } from "../context";
 
-export function <%name%>Scene(k: GameCtx): void {
+export function <%name%>Scene(): void {
   const scene = k.add([]);
   
   
