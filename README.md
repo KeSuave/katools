@@ -20,7 +20,7 @@ $ npm install -g katools
 $ katools COMMAND
 running command...
 $ katools (--version)
-katools/0.4.0 linux-x64 node-v18.20.5
+katools/0.5.0 linux-x64 node-v18.20.5
 $ katools --help [COMMAND]
 USAGE
   $ katools COMMAND
@@ -63,7 +63,7 @@ EXAMPLES
   $ katools component movement
 ```
 
-_See code: [src/commands/component.ts](https://github.com/KeSuave/katools/blob/v0.4.0/src/commands/component.ts)_
+_See code: [src/commands/component.ts](https://github.com/KeSuave/katools/blob/v0.5.0/src/commands/component.ts)_
 
 ## `katools entity NAME`
 
@@ -83,7 +83,7 @@ EXAMPLES
   $ katools entity player
 ```
 
-_See code: [src/commands/entity.ts](https://github.com/KeSuave/katools/blob/v0.4.0/src/commands/entity.ts)_
+_See code: [src/commands/entity.ts](https://github.com/KeSuave/katools/blob/v0.5.0/src/commands/entity.ts)_
 
 ## `katools help [COMMAND]`
 
@@ -124,7 +124,7 @@ EXAMPLES
   $ katools init
 ```
 
-_See code: [src/commands/init.ts](https://github.com/KeSuave/katools/blob/v0.4.0/src/commands/init.ts)_
+_See code: [src/commands/init.ts](https://github.com/KeSuave/katools/blob/v0.5.0/src/commands/init.ts)_
 
 ## `katools plugins`
 
@@ -434,5 +434,5 @@ EXAMPLES
   $ katools scene game
 ```
 
-_See code: [src/commands/scene.ts](https://github.com/KeSuave/katools/blob/v0.4.0/src/commands/scene.ts)_
+_See code: [src/commands/scene.ts](https://github.com/KeSuave/katools/blob/v0.5.0/src/commands/scene.ts)_
 <!-- commandsstop -->
