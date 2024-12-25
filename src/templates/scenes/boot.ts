@@ -8,7 +8,7 @@ export function bootScene(): void {
   // load assets here
 
   k.onLoading((progress) => (currentProgress = progress));
-  k.onLoad(() => k.go("menu", k));
+  k.onLoad(() => k.go("menu"));
 
   const progressBarWidth = Math.min(800, k.width() - 40);
   const progressBarHeight = 40;

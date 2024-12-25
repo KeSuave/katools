@@ -10,7 +10,7 @@ export function gameScene(): void {
   ]);
 
   scene.onKeyPress("space", () => {
-    k.go("gameOver", k);
+    k.go("gameOver");
   });
 }
 `

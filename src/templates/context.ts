@@ -13,7 +13,7 @@ export const k = kaplay({
   plugins: [],
 });
 
-addScenes(k);
+addScenes();
 
 export type GameCtx = typeof k;
 `

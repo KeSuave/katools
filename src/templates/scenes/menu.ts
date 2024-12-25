@@ -5,16 +5,16 @@ export function menuScene(): void {
 
   scene.add([
     k.text("<%gameName%>", {
-      size: 200,
+      size: 120,
     }),
-    k.pos(k.center().sub(0, 100)),
+    k.pos(k.center().sub(0, 40)),
     k.anchor("center"),
   ]);
 
   const play = scene.add([
     k.text("Play"),
     k.color(k.WHITE),
-    k.pos(k.center().add(0, 100)),
+    k.pos(k.center().add(0, 40)),
     k.anchor("center"),
     k.area(),
   ]);
@@ -28,7 +28,7 @@ export function menuScene(): void {
   });
 
   play.onClick(() => {
-    k.go("game", k);
+    k.go("game");
   });
 }
 `

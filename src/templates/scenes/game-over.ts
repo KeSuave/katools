@@ -7,20 +7,20 @@ export function gameOverScene(): void {
     k.text("Game Over", {
       size: 100,
     }),
-    k.pos(k.center().sub(0, 50)),
+    k.pos(k.center().sub(0, 60)),
     k.anchor("center"),
   ]);
 
   scene.add([
     k.text("Thanks for playing"),
-    k.pos(k.center().add(0, 40)),
+    k.pos(k.center()),
     k.anchor("center"),
   ]);
 
   const play = scene.add([
     k.text("Play Again"),
     k.color(k.WHITE),
-    k.pos(k.center().add(0, 140)),
+    k.pos(k.center().add(0, 80)),
     k.anchor("center"),
     k.area(),
   ]);
@@ -34,7 +34,7 @@ export function gameOverScene(): void {
   });
 
   play.onClick(() => {
-    k.go("game", k);
+    k.go("game");
   });
 }
 `
