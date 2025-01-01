@@ -10,7 +10,6 @@ A set of tools to help you focus on what matters most by taking care of the repe
 
 
 <!-- toc -->
-* [Usage](#usage)
 * [Commands](#commands)
 <!-- tocstop -->
 ## Usage
@@ -20,7 +19,7 @@ $ npm install -g katools
 $ katools COMMAND
 running command...
 $ katools (--version)
-katools/0.5.2 win32-x64 node-v20.18.1
+katools/0.6.0 win32-x64 node-v20.18.1
 $ katools --help [COMMAND]
 USAGE
   $ katools COMMAND
@@ -29,14 +28,12 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-- [katools](#katools)
-  - [Usage](#usage)
-- [Commands](#commands)
-  - [`katools component NAME`](#katools-component-name)
-  - [`katools entity NAME`](#katools-entity-name)
-  - [`katools help [COMMAND]`](#katools-help-command)
-  - [`katools init`](#katools-init)
-  - [`katools scene NAME`](#katools-scene-name)
+* [`katools component NAME`](#katools-component-name)
+* [`katools entity NAME`](#katools-entity-name)
+* [`katools help [COMMAND]`](#katools-help-command)
+* [`katools init`](#katools-init)
+* [`katools plugin NAME`](#katools-plugin-name)
+* [`katools scene NAME`](#katools-scene-name)
 
 ## `katools component NAME`
 
@@ -56,7 +53,7 @@ EXAMPLES
   $ katools component movement
 ```
 
-_See code: [src/commands/component.ts](https://github.com/KeSuave/katools/blob/v0.5.2/src/commands/component.ts)_
+_See code: [src/commands/component.ts](https://github.com/KeSuave/katools/blob/v0.6.0/src/commands/component.ts)_
 
 ## `katools entity NAME`
 
@@ -76,7 +73,7 @@ EXAMPLES
   $ katools entity player
 ```
 
-_See code: [src/commands/entity.ts](https://github.com/KeSuave/katools/blob/v0.5.2/src/commands/entity.ts)_
+_See code: [src/commands/entity.ts](https://github.com/KeSuave/katools/blob/v0.6.0/src/commands/entity.ts)_
 
 ## `katools help [COMMAND]`
 
@@ -117,7 +114,27 @@ EXAMPLES
   $ katools init
 ```
 
-_See code: [src/commands/init.ts](https://github.com/KeSuave/katools/blob/v0.5.2/src/commands/init.ts)_
+_See code: [src/commands/init.ts](https://github.com/KeSuave/katools/blob/v0.6.0/src/commands/init.ts)_
+
+## `katools plugin NAME`
+
+adds a new plugin to the project
+
+```
+USAGE
+  $ katools plugin NAME
+
+ARGUMENTS
+  NAME  name of plugin
+
+DESCRIPTION
+  adds a new plugin to the project
+
+EXAMPLES
+  $ katools plugin score
+```
+
+_See code: [src/commands/plugin.ts](https://github.com/KeSuave/katools/blob/v0.6.0/src/commands/plugin.ts)_
 
 ## `katools scene NAME`
 
@@ -137,5 +154,5 @@ EXAMPLES
   $ katools scene game
 ```
 
-_See code: [src/commands/scene.ts](https://github.com/KeSuave/katools/blob/v0.5.2/src/commands/scene.ts)_
+_See code: [src/commands/scene.ts](https://github.com/KeSuave/katools/blob/v0.6.0/src/commands/scene.ts)_
 <!-- commandsstop -->
