@@ -1,4 +1,5 @@
 export default `import kaplay from "kaplay";
+import plugins from "./plugins";
 import addScenes from "./scenes";
 
 export const k = kaplay({
@@ -10,7 +11,10 @@ export const k = kaplay({
   debugKey: "<%debugKey%>",
   debug: true, // TODO: set this to false in production
   background: [20, 20, 20],
-  plugins: [],
+  plugins: [
+    ...plugins,
+    // Add other plugins here
+  ],
 });
 
 addScenes();

@@ -5,6 +5,7 @@ import path from 'node:path'
 import {confirm, input, number} from '@inquirer/prompts'
 import Template from '../template.js'
 import contextTemplate from '../templates/context.js'
+import pluginManagerTemplate from '../templates/plugins/manager.js'
 import bootSceneTemplate from '../templates/scenes/boot.js'
 import gameOverSceneTemplate from '../templates/scenes/game-over.js'
 import gameSceneTemplate from '../templates/scenes/game.js'
@@ -50,7 +51,7 @@ export default class Init extends Command {
     }
 
     if (!flags.skip) {
-      this.askGameContextOptions(gameContextOptions)
+      await this.askGameContextOptions(gameContextOptions)
     }
 
     this.writeGameContext(gameContextOptions)
@@ -59,6 +60,9 @@ export default class Init extends Command {
     this.writeMenuScene(gameName)
     this.writeGameScene()
     this.writeGameOverScene()
+    this.writePluginManager()
+
+    this.log('Game initialized successfully!')
   }
 
   private checkFolderStructure(): void {
@@ -68,6 +72,10 @@ export default class Init extends Command {
 
     if (!fs.existsSync(projectPath('src', 'scenes'))) {
       fs.mkdirSync(projectPath('src', 'scenes'))
+    }
+
+    if (!fs.existsSync(projectPath('src', 'plugins'))) {
+      fs.mkdirSync(projectPath('src', 'plugins'))
     }
   }
 
@@ -134,5 +142,11 @@ export default class Init extends Command {
     const template = gameOverSceneTemplate
 
     fs.writeFileSync(projectPath('src', 'scenes', 'gameOver.ts'), template)
+  }
+
+  private writePluginManager(): void {
+    const template = pluginManagerTemplate
+
+    fs.writeFileSync(projectPath('src', 'plugins', 'index.ts'), template)
   }
 }

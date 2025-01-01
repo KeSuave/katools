@@ -80,8 +80,6 @@ export default class Scene extends Command {
           this.error(`The scene ${name} is already exported in src/scenes/index.ts.`)
         }
 
-        // updatedData = `${match}\n  k.scene("${name}", ${name}Scene);\n}\n`
-
         return `${fn}${scenes}  k.scene("${name}", ${name}Scene);\n}`
       },
     )
