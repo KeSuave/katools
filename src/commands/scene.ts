@@ -74,13 +74,13 @@ export default class Scene extends Command {
     }
 
     updatedData = updatedData.replace(
-      /(export\s+default\s+function\s+addScenes\(k: KAPLAYCtx\): void\s*{)([\S\s]*?)}/,
+      /(export\s+default\s+function\s+addScenes\(\): void\s*{)([\S\s]*?)}/,
       (_match, fn, scenes) => {
         if (scenes.includes(sceneLine)) {
           this.error(`The scene ${name} is already exported in src/scenes/index.ts.`)
         }
 
-        return `${fn}${scenes}  k.scene("${name}", ${name}Scene);\n}`
+        return `${fn}${scenes}${sceneLine}}`
       },
     )
 
