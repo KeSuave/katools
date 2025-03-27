@@ -4,8 +4,11 @@ import { k } from "../context";
 
 export type <%pascalCaseName%>Comps = PosComp;
 
-export function make<%pascalCaseName%>(pos: Vec2): GameObj<<%pascalCaseName%>Comps> {
-  return k.make([
+export function make<%pascalCaseName%>(
+  parent: GameObj,
+  pos: Vec2
+): GameObj<<%pascalCaseName%>Comps> {
+  return k.add([
     k.pos(pos),
     "<%name%>"
   ]);
