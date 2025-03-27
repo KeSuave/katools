@@ -22,7 +22,7 @@ $ npm install -g katools
 $ katools COMMAND
 running command...
 $ katools (--version)
-katools/0.7.1 win32-x64 node-v20.18.1
+katools/0.7.1 linux-x64 node-v20.19.0
 $ katools --help [COMMAND]
 USAGE
   $ katools COMMAND
