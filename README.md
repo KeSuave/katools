@@ -8,6 +8,10 @@ A set of tools to help you focus on what matters most by taking care of the repe
 [![Version](https://img.shields.io/npm/v/katools.svg)](https://npmjs.org/package/katools)
 [![Downloads/week](https://img.shields.io/npm/dw/katools.svg)](https://npmjs.org/package/katools)
 
+## Guide
+
+Follow the steps mentioned on this [blog post](https://kesuave.github.io/en/blog/katools/) to get started _(might be a bit outdated, but still works the same)_.
+
 ## Usage
 
 ```sh-session
