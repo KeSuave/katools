@@ -49,10 +49,11 @@ export default class Plugin extends Command {
       name,
       pascalCaseName: pascalCase(name),
     })
+    const pluginPath = projectPath('src', 'plugins', `${name}.ts`)
 
-    fs.writeFileSync(projectPath('src', 'plugins', `${name}.ts`), template)
+    fs.writeFileSync(pluginPath, template)
 
-    this.log(`Created new plugin: ${name}`)
+    this.log(`Plugin ${name} created at ${pluginPath}`)
   }
 
   private addPluginToManager(name: string): void {

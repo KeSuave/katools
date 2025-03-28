@@ -45,10 +45,11 @@ export default class Scene extends Command {
       open: '<%',
     })
     const template = tpl.render(baseSceneTemplate, {name})
+    const scenePath = projectPath('src', 'scenes', `${name}.ts`)
 
-    fs.writeFileSync(projectPath('src', 'scenes', `${name}.ts`), template)
+    fs.writeFileSync(scenePath, template)
 
-    this.log(`Created new scene: ${name}`)
+    this.log(`Scene ${name} created at ${scenePath}`)
   }
 
   private addSceneToManager(name: string): void {
