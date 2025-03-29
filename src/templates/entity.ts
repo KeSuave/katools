@@ -8,7 +8,7 @@ export function make<%pascalCaseName%>(
   parent: GameObj,
   pos: Vec2
 ): GameObj<<%pascalCaseName%>Comps> {
-  return k.add([
+  return parent.add([
     k.pos(pos),
     "<%name%>"
   ]);
