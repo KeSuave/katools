@@ -1,7 +1,7 @@
 {
   "name": "katools",
   "description": "A set of tools to help you focus on what matters most by taking care of the repetitive work.",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "author": "KeSuave",
   "bin": {
     "katools": "./bin/run.js"
