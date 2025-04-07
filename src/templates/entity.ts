@@ -3,7 +3,7 @@ export default `import type { GameObj, PosComp, Vec2 } from "kaplay";
 import { k } from "../context";
 
 export type <%pascalCaseName%>EntityComps = PosComp;
-export type <%pascalCaseName%>Entity = GameObj<<%pascalCaseName%>Comps>;
+export type <%pascalCaseName%>Entity = GameObj<<%pascalCaseName%>EntityComps>;
 
 export function make<%pascalCaseName%>(
   parent: GameObj,
