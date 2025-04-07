@@ -11,9 +11,9 @@ export function make<%pascalCaseName%>(
 ): <%pascalCaseName%>Entity {
   const <%camelCaseName%> = parent.add([
     k.pos(pos),
-    "<%name%>"
+    "<%name%>",
   ]);
 
-  return <%camelCaseName%>
+  return <%camelCaseName%>;
 }
 `
