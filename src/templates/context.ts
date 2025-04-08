@@ -6,7 +6,6 @@ export const k = kaplay({
   global: false,
   width: <%width%>,
   height: <%height%>,
-  stretch: <%stretch%>,
   letterbox: <%letterbox%>,
   debugKey: "<%debugKey%>",
   debug: true, // TODO: set this to false in production

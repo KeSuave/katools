@@ -16,7 +16,6 @@ import {projectPath} from '../utils.js'
 interface GameContextOptions {
   width: number
   height: number
-  stretch: boolean
   letterbox: boolean
   debugKey: string
 }
@@ -45,7 +44,6 @@ export default class Init extends Command {
     const gameContextOptions: GameContextOptions = {
       width: 640,
       height: 360,
-      stretch: true,
       letterbox: true,
       debugKey: 'u',
     }
@@ -86,10 +84,6 @@ export default class Init extends Command {
     options.height =
       (await number({message: 'Enter the height of your game:', default: options.height, required: true})) ??
       options.height
-    options.stretch = await confirm({
-      message: 'Would you like to stretch the game?',
-      default: options.stretch,
-    })
     options.letterbox = await confirm({
       message: 'Would you like to use letterboxing?',
       default: options.letterbox,
@@ -106,7 +100,6 @@ export default class Init extends Command {
     const template = this.tpl.render(contextTemplate, {
       width: options.width,
       height: options.height,
-      stretch: options.stretch ? 'true' : 'false',
       letterbox: options.letterbox ? 'true' : 'false',
       debugKey: options.debugKey,
     })
