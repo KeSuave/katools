@@ -1,10 +1,10 @@
-import {Args, Command} from '@oclif/core'
+import {Args, Command, Flags} from '@oclif/core'
 import {camelCase, pascalCase} from 'change-case'
 import fs from 'node:fs'
 
 import Template from '../template.js'
 import entityTemplate from '../templates/entity.js'
-import {projectPath} from '../utils.js'
+import {checkFolderStructure, projectPath} from '../utils.js'
 
 export default class Entity extends Command {
   static override args = {
@@ -15,28 +15,29 @@ export default class Entity extends Command {
 
   static override examples = ['<%= config.bin %> <%= command.id %> player']
 
-  static override flags = {}
-
-  public async run(): Promise<void> {
-    const {args} = await this.parse(Entity)
-
-    this.checkFolderStructure()
-
-    this.writeNewComponent(args.name)
+  static override flags = {
+    dir: Flags.string({char: 'd', default: 'entities', description: 'directory to create the entity in'}),
+    subDir: Flags.string({char: 's', default: '', description: 'subdirectory to create the entity in'}),
   }
 
-  private checkFolderStructure(): void {
-    if (!fs.existsSync(projectPath('src'))) {
+  public async run(): Promise<void> {
+    const {args, flags} = await this.parse(Entity)
+
+    let {dir, subDir} = flags
+
+    if (subDir) {
+      dir = `${dir}/${subDir}`
+    }
+
+    if (!checkFolderStructure(dir)) {
       this.error('The current directory does not contain a src folder.')
     }
 
-    if (!fs.existsSync(projectPath('src', 'entities'))) {
-      fs.mkdirSync(projectPath('src', 'entities'))
-    }
+    this.writeNewComponent(args.name, dir)
   }
 
-  private writeNewComponent(name: string): void {
-    const componentPath = projectPath('src', 'entities', `${name}.ts`)
+  private writeNewComponent(name: string, dir: string): void {
+    const componentPath = projectPath('src', dir, `${name}.ts`)
     const tpl = new Template({
       close: '%>',
       open: '<%',
