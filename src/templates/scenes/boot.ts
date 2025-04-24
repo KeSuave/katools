@@ -5,6 +5,8 @@ export function bootScene(): void {
 
   let currentProgress = 0;
 
+  k.loadRoot("./");
+
   // load assets here
 
   k.onLoading((progress) => (currentProgress = progress));
