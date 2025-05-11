@@ -26,7 +26,7 @@ $ npm install -g katools
 $ katools COMMAND
 running command...
 $ katools (--version)
-katools/0.12.0 win32-x64 node-v20.18.1
+katools/1.0.0 win32-x64 node-v20.18.1
 $ katools --help [COMMAND]
 USAGE
   $ katools COMMAND
@@ -61,10 +61,15 @@ Adds a new component to the project
 
 ```
 USAGE
-  $ katools component NAME
+  $ katools component NAME [-d <value>] [-s <value>] [-j]
 
 ARGUMENTS
   NAME  name of component
+
+FLAGS
+  -d, --dir=<value>     [default: components] directory to create the component in
+  -j, --javascript      create a JavaScript plugin instead of TypeScript.
+  -s, --subDir=<value>  subdirectory to create the component in
 
 DESCRIPTION
   Adds a new component to the project
@@ -73,7 +78,7 @@ EXAMPLES
   $ katools component movement
 ```
 
-_See code: [src/commands/component.ts](https://github.com/KeSuave/katools/blob/v0.12.0/src/commands/component.ts)_
+_See code: [src/commands/component.ts](https://github.com/KeSuave/katools/blob/v1.0.0/src/commands/component.ts)_
 
 ## `katools entity NAME`
 
@@ -81,10 +86,15 @@ Adds a new entity to project
 
 ```
 USAGE
-  $ katools entity NAME
+  $ katools entity NAME [-d <value>] [-s <value>] [-j]
 
 ARGUMENTS
   NAME  name of entity
+
+FLAGS
+  -d, --dir=<value>     [default: entities] directory to create the entity in
+  -j, --javascript      create a JavaScript plugin instead of TypeScript.
+  -s, --subDir=<value>  subdirectory to create the entity in
 
 DESCRIPTION
   Adds a new entity to project
@@ -93,7 +103,7 @@ EXAMPLES
   $ katools entity player
 ```
 
-_See code: [src/commands/entity.ts](https://github.com/KeSuave/katools/blob/v0.12.0/src/commands/entity.ts)_
+_See code: [src/commands/entity.ts](https://github.com/KeSuave/katools/blob/v1.0.0/src/commands/entity.ts)_
 
 ## `katools help [COMMAND]`
 
@@ -121,9 +131,10 @@ Initializes a new KAPLAY project.
 
 ```
 USAGE
-  $ katools init [-n <value>] [-s]
+  $ katools init [-n <value>] [-s] [-j]
 
 FLAGS
+  -j, --javascript    create a JavaScript project instead of TypeScript.
   -n, --name=<value>  [default: katools] name of your game.
   -s, --skip          skip prompts and use default values.
 
@@ -134,7 +145,7 @@ EXAMPLES
   $ katools init
 ```
 
-_See code: [src/commands/init.ts](https://github.com/KeSuave/katools/blob/v0.12.0/src/commands/init.ts)_
+_See code: [src/commands/init.ts](https://github.com/KeSuave/katools/blob/v1.0.0/src/commands/init.ts)_
 
 ## `katools plugin NAME`
 
@@ -142,10 +153,13 @@ adds a new plugin to the project
 
 ```
 USAGE
-  $ katools plugin NAME
+  $ katools plugin NAME [-j]
 
 ARGUMENTS
   NAME  name of plugin
+
+FLAGS
+  -j, --javascript  create a JavaScript plugin instead of TypeScript.
 
 DESCRIPTION
   adds a new plugin to the project
@@ -154,7 +168,7 @@ EXAMPLES
   $ katools plugin score
 ```
 
-_See code: [src/commands/plugin.ts](https://github.com/KeSuave/katools/blob/v0.12.0/src/commands/plugin.ts)_
+_See code: [src/commands/plugin.ts](https://github.com/KeSuave/katools/blob/v1.0.0/src/commands/plugin.ts)_
 
 ## `katools scene NAME`
 
@@ -162,10 +176,13 @@ adds a scene to the project
 
 ```
 USAGE
-  $ katools scene NAME
+  $ katools scene NAME [-j]
 
 ARGUMENTS
   NAME  name of scene
+
+FLAGS
+  -j, --javascript  create a JavaScript plugin instead of TypeScript.
 
 DESCRIPTION
   adds a scene to the project
@@ -174,7 +191,7 @@ EXAMPLES
   $ katools scene game
 ```
 
-_See code: [src/commands/scene.ts](https://github.com/KeSuave/katools/blob/v0.12.0/src/commands/scene.ts)_
+_See code: [src/commands/scene.ts](https://github.com/KeSuave/katools/blob/v1.0.0/src/commands/scene.ts)_
 <!-- commandsstop -->
 * [`katools component NAME`](#katools-component-name)
 * [`katools entity NAME`](#katools-entity-name)
