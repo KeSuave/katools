@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "author": "KeSuave",
   "bin": {
-    "katools": "./bin/run.js"
+    "katools": "bin/run.js"
   },
   "bugs": "https://github.com/KeSuave/katools/issues",
   "dependencies": {
@@ -61,7 +61,10 @@
       }
     }
   },
-  "repository": "KeSuave/katools",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KeSuave/katools.git"
+  },
   "scripts": {
     "build": "shx rm -rf dist && tsc -b",
     "lint": "eslint . --ext .ts",
