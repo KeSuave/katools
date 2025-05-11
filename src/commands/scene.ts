@@ -1,9 +1,9 @@
-import {Args, Command} from '@oclif/core'
+import {Args, Command, Flags} from '@oclif/core'
 import fs from 'node:fs'
 
-import Template from '../template.js'
 import baseSceneTemplate from '../templates/scenes/base.js'
-import {projectPath} from '../utils.js'
+import Template from '../thirdparty/template.js'
+import {projectPath, writeCodeFile} from '../utils.js'
 
 export default class Scene extends Command {
   static override args = {
@@ -14,18 +14,24 @@ export default class Scene extends Command {
 
   static override examples = ['<%= config.bin %> <%= command.id %> game']
 
-  static override flags = {}
-
-  public async run(): Promise<void> {
-    const {args} = await this.parse(Scene)
-
-    this.checkFolderStructure()
-
-    this.writeNewScene(args.name)
-    this.addSceneToManager(args.name)
+  static override flags = {
+    javascript: Flags.boolean({
+      char: 'j',
+      default: false,
+      description: 'uses JavaScript instead of TypeScript',
+    }),
   }
 
-  private checkFolderStructure(): void {
+  public async run(): Promise<void> {
+    const {args, flags} = await this.parse(Scene)
+
+    this.checkFolderStructure(flags.javascript)
+
+    this.writeNewScene(args.name, flags.javascript)
+    this.addSceneToManager(args.name, flags.javascript)
+  }
+
+  private checkFolderStructure(js: boolean): void {
     if (!fs.existsSync(projectPath('src'))) {
       this.error('The current directory does not contain a src folder.')
     }
@@ -34,12 +40,14 @@ export default class Scene extends Command {
       this.error('The current directory does not contain a scr/scenes folder')
     }
 
-    if (!fs.existsSync(projectPath('src', 'scenes', 'index.ts'))) {
-      this.error('The current directory does not contain a src/scenes/index.ts file')
+    const file = projectPath('src', 'scenes', js ? 'index.js' : 'index.ts')
+
+    if (!fs.existsSync(file)) {
+      this.error(`The current directory does not contain a ${file} file`)
     }
   }
 
-  private writeNewScene(name: string): void {
+  private writeNewScene(name: string, js: boolean): void {
     const tpl = new Template({
       close: '%>',
       open: '<%',
@@ -47,24 +55,24 @@ export default class Scene extends Command {
     const template = tpl.render(baseSceneTemplate, {name})
     const scenePath = projectPath('src', 'scenes', `${name}.ts`)
 
-    fs.writeFileSync(scenePath, template)
+    writeCodeFile(scenePath, template, js)
 
     this.log(`Scene ${name} created at ${scenePath}`)
   }
 
-  private addSceneToManager(name: string): void {
-    const filePath = projectPath('src', 'scenes', 'index.ts')
+  private addSceneToManager(name: string, js: boolean): void {
+    const file = projectPath('src', 'scenes', js ? 'index.js' : 'index.ts')
     const importLine = `import { ${name}Scene } from './${name}';\n`
     const sceneLine = `  k.scene('${name}', ${name}Scene);\n`
 
-    const data = fs.readFileSync(filePath, 'utf8')
+    const data = fs.readFileSync(file, 'utf8')
 
     let updatedData = ''
 
     if (data.includes('import')) {
       updatedData = data.replaceAll(/(import\s+[\S\s]*?\n)+/gm, (imports) => {
         if (imports.includes(importLine)) {
-          this.error(`The scene ${name} is already imported in src/scenes/index.ts.`)
+          this.error(`The scene ${name} is already imported in ${file}.`)
         }
 
         return `${imports}${importLine}`
@@ -75,18 +83,18 @@ export default class Scene extends Command {
     }
 
     updatedData = updatedData.replace(
-      /(export\s+default\s+function\s+addScenes\(\): void\s*{)([\S\s]*?)}/,
+      /(export\s+default\s+function\s+addScenes\(\)(?:: void)?\s*{)([\S\s]*?)}/,
       (_match, fn, scenes) => {
         if (scenes.includes(sceneLine)) {
-          this.error(`The scene ${name} is already exported in src/scenes/index.ts.`)
+          this.error(`The scene ${name} is already exported in ${file}.`)
         }
 
         return `${fn}${scenes}${sceneLine}}`
       },
     )
 
-    fs.writeFileSync(filePath, updatedData, 'utf8')
+    writeCodeFile(file, updatedData, js)
 
-    this.log(`Scene "${name}" has been added to src/scenes/index.ts`)
+    this.log(`Scene "${name}" has been added to ${file}`)
   }
 }

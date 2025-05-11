@@ -1,10 +1,9 @@
 import {Args, Command, Flags} from '@oclif/core'
 import {camelCase, pascalCase} from 'change-case'
-import fs from 'node:fs'
 
-import Template from '../template.js'
 import componentTemplate from '../templates/component.js'
-import {checkFolderStructure, projectPath} from '../utils.js'
+import Template from '../thirdparty/template.js'
+import {checkFolderStructure, projectPath, writeCodeFile} from '../utils.js'
 
 export default class Component extends Command {
   static override args = {
@@ -18,12 +17,17 @@ export default class Component extends Command {
   static override flags = {
     dir: Flags.string({char: 'd', default: 'components', description: 'directory to create the component in'}),
     subDir: Flags.string({char: 's', default: '', description: 'subdirectory to create the component in'}),
+    javascript: Flags.boolean({
+      char: 'j',
+      default: false,
+      description: 'uses JavaScript instead of TypeScript',
+    }),
   }
 
   public async run(): Promise<void> {
     const {args, flags} = await this.parse(Component)
 
-    let {dir, subDir} = flags
+    let {dir, subDir, javascript} = flags
 
     if (subDir) {
       dir = `${dir}/${subDir}`
@@ -33,10 +37,10 @@ export default class Component extends Command {
       this.error('The current directory does not contain a src folder.')
     }
 
-    this.writeNewComponent(args.name, dir)
+    this.writeNewComponent(args.name, dir, javascript)
   }
 
-  private writeNewComponent(name: string, dir: string): void {
+  private writeNewComponent(name: string, dir: string, js: boolean): void {
     const componentPath = projectPath('src', dir, `${name}.ts`)
     const tpl = new Template({
       close: '%>',
@@ -48,7 +52,7 @@ export default class Component extends Command {
       pascalCaseName: pascalCase(name),
     })
 
-    fs.writeFileSync(componentPath, template)
+    writeCodeFile(componentPath, template, js)
 
     this.log(`Component ${name} created at ${componentPath}`)
   }

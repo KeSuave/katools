@@ -12,7 +12,8 @@
     "@oclif/core": "^4",
     "@oclif/plugin-help": "^6",
     "@oclif/plugin-plugins": "^5",
-    "change-case": "^5.4.4"
+    "change-case": "^5.4.4",
+    "ts-to-jsdoc": "^2.4.0"
   },
   "devDependencies": {
     "@oclif/prettier-config": "^0.2.1",
