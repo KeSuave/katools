@@ -37,7 +37,7 @@ export default class Scene extends Command {
     }
 
     if (!fs.existsSync(projectPath('src', 'scenes'))) {
-      this.error('The current directory does not contain a scr/scenes folder')
+      this.error('The current directory does not contain a src/scenes folder')
     }
 
     const file = projectPath('src', 'scenes', js ? 'index.js' : 'index.ts')
