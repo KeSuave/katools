@@ -1,8 +1,7 @@
-export default `import { k } from "../context";
+import { k } from "../context";
 
 export function <%name%>Scene(): void {
   const scene = k.add([]);
   
   
 }
-`

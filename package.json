@@ -67,6 +67,7 @@
   },
   "scripts": {
     "build": "shx rm -rf dist && tsc -b",
+    "postbuild": "shx cp -R templates/ dist/",
     "lint": "eslint . --ext .ts",
     "postpack": "shx rm -f oclif.manifest.json",
     "posttest": "npm run lint",

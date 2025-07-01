@@ -1,11 +1,10 @@
-import {Args, Command, Flags} from '@oclif/core'
+import {Args} from '@oclif/core'
 import fs from 'node:fs'
 
-import baseSceneTemplate from '../templates/scenes/base.js'
-import Template from '../thirdparty/template.js'
+import {BaseCommand} from '../base-command.js'
 import {projectPath, writeCodeFile} from '../utils.js'
 
-export default class Scene extends Command {
+export default class Scene extends BaseCommand {
   static override args = {
     name: Args.string({description: 'name of scene', required: true}),
   }
@@ -14,20 +13,16 @@ export default class Scene extends Command {
 
   static override examples = ['<%= config.bin %> <%= command.id %> game']
 
-  static override flags = {
-    javascript: Flags.boolean({
-      char: 'j',
-      default: false,
-      description: 'uses JavaScript instead of TypeScript',
-    }),
-  }
+  static override flags = {}
+
+  protected type = 'Scene'
 
   public async run(): Promise<void> {
     const {args, flags} = await this.parse(Scene)
 
     this.checkFolderStructure(flags.javascript)
 
-    this.writeNewScene(args.name, flags.javascript)
+    this.writeFile(args.name, args.name, ['scenes'], ['scenes', 'base.ts.template'], flags.javascript)
     this.addSceneToManager(args.name, flags.javascript)
   }
 
@@ -45,19 +40,6 @@ export default class Scene extends Command {
     if (!fs.existsSync(file)) {
       this.error(`The current directory does not contain a ${file} file`)
     }
-  }
-
-  private writeNewScene(name: string, js: boolean): void {
-    const tpl = new Template({
-      close: '%>',
-      open: '<%',
-    })
-    const template = tpl.render(baseSceneTemplate, {name})
-    const scenePath = projectPath('src', 'scenes', `${name}.ts`)
-
-    writeCodeFile(scenePath, template, js)
-
-    this.log(`Scene ${name} created at ${scenePath}`)
   }
 
   private addSceneToManager(name: string, js: boolean): void {

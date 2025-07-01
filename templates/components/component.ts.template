@@ -1,4 +1,4 @@
-export default `import type { Comp, GameObj } from "kaplay";
+import type { Comp, GameObj } from "kaplay";
 
 export interface <%pascalCaseName%>Comp extends Comp {
 
@@ -11,4 +11,3 @@ export function <%name%>(): <%pascalCaseName%>Comp {
     id: "<%name%>",
   }
 }
-`

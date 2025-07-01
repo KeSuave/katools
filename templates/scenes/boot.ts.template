@@ -1,4 +1,4 @@
-export default `import { k } from "../context";
+import { k } from "../context";
 
 export function bootScene(): void {
   const scene = k.add([]);
@@ -33,4 +33,3 @@ export function bootScene(): void {
     });
   });
 }
-`

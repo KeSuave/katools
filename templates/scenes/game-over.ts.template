@@ -1,4 +1,4 @@
-export default `import { k } from "../context";
+import { k } from "../context";
 
 export function gameOverScene(): void {
   const scene = k.add([]);
@@ -37,4 +37,3 @@ export function gameOverScene(): void {
     k.go("game");
   });
 }
-`

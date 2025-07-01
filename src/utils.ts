@@ -1,3 +1,4 @@
+import {fileURLToPath} from 'node:url'
 import fs from 'node:fs'
 import path from 'node:path'
 import {transpileFile} from 'ts-to-jsdoc'
@@ -6,24 +7,19 @@ export function projectPath(...p: string[]): string {
   return path.join(process.cwd(), ...p)
 }
 
-export function checkFolderStructure(dir: string): boolean {
-  if (!fs.existsSync(projectPath('src'))) {
-    return false
-  }
+export function templatesPath(...p: string[]): string {
+  const filename = fileURLToPath(import.meta.url)
+  const dirname = path.dirname(filename)
 
-  if (!fs.existsSync(projectPath('src', dir))) {
-    fs.mkdirSync(projectPath('src', dir), {recursive: true})
-  }
-
-  return true
+  return path.join(dirname, '..', 'templates', ...p)
 }
 
 export function writeCodeFile(file: string, code: string, js: boolean): void {
   if (js) {
     fs.writeFileSync(file.replace('.ts', '.js'), transpileFile({code}), 'utf8')
+
+    return
   }
 
-  if (!js) {
-    fs.writeFileSync(file, code, 'utf8')
-  }
+  fs.writeFileSync(file, code, 'utf8')
 }

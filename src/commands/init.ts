@@ -1,17 +1,12 @@
-import {Command, Flags} from '@oclif/core'
+import {Flags} from '@oclif/core'
 import fs from 'node:fs'
 import path from 'node:path'
 
 import {confirm, input, number} from '@inquirer/prompts'
-import contextTemplate from '../templates/context.js'
-import pluginManagerTemplate from '../templates/plugins/manager.js'
-import bootSceneTemplate from '../templates/scenes/boot.js'
-import gameOverSceneTemplate from '../templates/scenes/game-over.js'
-import gameSceneTemplate from '../templates/scenes/game.js'
-import sceneManagerTemplate from '../templates/scenes/manager.js'
-import menuSceneTemplate from '../templates/scenes/menu.js'
+import {transpileFile} from 'ts-to-jsdoc'
+import {BaseCommand} from '../base-command.js'
 import Template from '../thirdparty/template.js'
-import {projectPath, writeCodeFile} from '../utils.js'
+import {projectPath, templatesPath, writeCodeFile} from '../utils.js'
 
 interface GameContextOptions {
   width: number
@@ -20,7 +15,7 @@ interface GameContextOptions {
   debugKey: string
 }
 
-export default class Init extends Command {
+export default class Init extends BaseCommand {
   private tpl = new Template({
     close: '%>',
     open: '<%',
@@ -33,12 +28,9 @@ export default class Init extends Command {
   static override flags = {
     name: Flags.string({char: 'n', default: path.basename(process.cwd()), description: 'name of your game.'}),
     skip: Flags.boolean({char: 's', description: 'skip prompts and use default values.'}),
-    javascript: Flags.boolean({
-      char: 'j',
-      default: false,
-      description: 'uses JavaScript instead of TypeScript',
-    }),
   }
+
+  protected type = 'Initialization'
 
   public async run(): Promise<void> {
     const {flags} = await this.parse(Init)
@@ -102,49 +94,42 @@ export default class Init extends Command {
   }
 
   private writeGameContext(options: GameContextOptions, js: boolean): void {
-    const template = this.tpl.render(contextTemplate, {
+    const templateContent = fs.readFileSync(templatesPath('context.ts.template'), 'utf8')
+    let content = this.tpl.render(templateContent, {
       width: options.width,
       height: options.height,
       letterbox: options.letterbox ? 'true' : 'false',
       debugKey: options.debugKey,
     })
 
-    writeCodeFile(projectPath('src', 'context.ts'), template, js)
+    if (js) {
+      content = transpileFile({code: content})
+    }
+
+    writeCodeFile(projectPath('src', 'context.ts'), content, js)
   }
 
   private writeSceneManager(js: boolean): void {
-    const template = sceneManagerTemplate
-
-    writeCodeFile(projectPath('src', 'scenes', 'index.ts'), template, js)
+    this.writeFile('Game Manager', 'index', 'scenes', ['scenes', 'manager.ts.template'], js)
   }
 
   private writeBootScene(js: boolean): void {
-    const template = bootSceneTemplate
-
-    writeCodeFile(projectPath('src', 'scenes', 'boot.ts'), template, js)
+    this.writeFile('Boot Scene', 'boot', 'scenes', ['scenes', 'boot.ts.template'], js)
   }
 
   private writeMenuScene(gameName: string, js: boolean): void {
-    const template = this.tpl.render(menuSceneTemplate, {gameName})
-
-    writeCodeFile(projectPath('src', 'scenes', 'menu.ts'), template, js)
+    this.writeFile('Menu Scene', 'menu', 'scenes', ['scenes', 'menu.ts.template'], js)
   }
 
   private writeGameScene(js: boolean): void {
-    const template = gameSceneTemplate
-
-    writeCodeFile(projectPath('src', 'scenes', 'game.ts'), template, js)
+    this.writeFile('Game Scene', 'game', 'scenes', ['scenes', 'game.ts.template'], js)
   }
 
   private writeGameOverScene(js: boolean): void {
-    const template = gameOverSceneTemplate
-
-    writeCodeFile(projectPath('src', 'scenes', 'gameOver.ts'), template, js)
+    this.writeFile('Game Over Scene', 'gameOver', 'scenes', ['scenes', 'game-over.ts.template'], js)
   }
 
   private writePluginManager(js: boolean): void {
-    const template = pluginManagerTemplate
-
-    writeCodeFile(projectPath('src', 'plugins', 'index.ts'), template, js)
+    this.writeFile('Plugin Manager', 'index', 'plugins', ['plugins', 'manager.ts.template'], js)
   }
 }

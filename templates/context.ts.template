@@ -1,4 +1,4 @@
-export default `import kaplay from "kaplay";
+import kaplay from "kaplay";
 import plugins from "./plugins";
 import addScenes from "./scenes";
 
@@ -19,4 +19,3 @@ export const k = kaplay({
 addScenes();
 
 export type GameCtx = typeof k;
-`

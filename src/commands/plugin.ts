@@ -1,11 +1,9 @@
-import {Args, Command, Flags} from '@oclif/core'
-import {camelCase, pascalCase} from 'change-case'
+import {Args} from '@oclif/core'
 import fs from 'node:fs'
-import basePluginTemplate from '../templates/plugins/base.js'
-import Template from '../thirdparty/template.js'
+import {BaseCommand} from '../base-command.js'
 import {projectPath, writeCodeFile} from '../utils.js'
 
-export default class Plugin extends Command {
+export default class Plugin extends BaseCommand {
   static override args = {
     name: Args.string({description: 'name of plugin', required: true}),
   }
@@ -14,30 +12,30 @@ export default class Plugin extends Command {
 
   static override examples = ['<%= config.bin %> <%= command.id %> score']
 
-  static override flags = {
-    javascript: Flags.boolean({
-      char: 'j',
-      default: false,
-      description: 'uses JavaScript instead of TypeScript',
-    }),
-  }
+  static override flags = {}
+
+  protected type = 'Plugin'
 
   public async run(): Promise<void> {
     const {args, flags} = await this.parse(Plugin)
 
-    this.checkFolderStructure(flags.javascript)
+    this.checkFolderStructure(args.name, flags.javascript)
 
     this.writeNewPlugin(args.name, flags.javascript)
     this.addPluginToManager(args.name, flags.javascript)
   }
 
-  private checkFolderStructure(js: boolean): void {
+  private checkFolderStructure(name: string, js: boolean): void {
     if (!fs.existsSync(projectPath('src'))) {
       this.error('The current directory does not contain a src folder.')
     }
 
     if (!fs.existsSync(projectPath('src', 'plugins'))) {
       this.error('The current directory does not contain a src/plugins folder.')
+    }
+
+    if (fs.existsSync(projectPath('src', 'plugins', name))) {
+      this.error('A plugin with the same name already exists.')
     }
 
     const file = projectPath('src', 'plugins', js ? 'index.js' : 'index.ts')
@@ -48,25 +46,15 @@ export default class Plugin extends Command {
   }
 
   private writeNewPlugin(name: string, js: boolean): void {
-    const tpl = new Template({
-      close: '%>',
-      open: '<%',
-    })
-    const template = tpl.render(basePluginTemplate, {
-      camelCaseName: camelCase(name),
-      name,
-      pascalCaseName: pascalCase(name),
-    })
-    const pluginPath = projectPath('src', 'plugins', `${name}.ts`)
+    fs.mkdirSync(projectPath('src', 'plugins', name))
 
-    writeCodeFile(pluginPath, template, js)
-
-    this.log(`Plugin ${name} created at ${pluginPath}`)
+    this.writeFile(name, 'index', ['plugins', name], ['plugins', 'index.ts.template'], js)
+    this.writeFile(name, name, ['plugins', name], ['plugins', 'base.ts.template'], js)
   }
 
   private addPluginToManager(name: string, js: boolean): void {
     const file = projectPath('src', 'plugins', js ? 'index.js' : 'index.ts')
-    const importLine = `import { ${name}Plugin } from './${name}';\n`
+    const importLine = `import ${name}Plugin from './${name}';\n`
     const pluginLine = `  ${name}Plugin),\n`
 
     const data = fs.readFileSync(file, 'utf8')
@@ -110,6 +98,6 @@ export default class Plugin extends Command {
 
     writeCodeFile(file, updatedData, js)
 
-    this.log(`Plugin "${name}" has been added to ${file}`)
+    this.log(`Plugin ${name} has been added to ${file}`)
   }
 }
