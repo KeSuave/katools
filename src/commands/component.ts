@@ -31,7 +31,7 @@ export default class Component extends BaseCommand {
 
     this.checkFolderStructure(dirPath)
 
-    this.writeFile(args.name, args.name, dir, ['components', 'component.ts.template'], javascript)
+    this.writeTemplatedFile(args.name, args.name, dir, ['components', 'component.ts'], javascript)
   }
 
   private checkFolderStructure(dir: string[]): void {

@@ -1,8 +1,8 @@
 import {Command, Flags, Interfaces} from '@oclif/core'
+import Template, {TemplateData} from './thirdparty/template.js'
 import {camelCase, pascalCase} from 'change-case'
 import {projectPath, templatesPath, writeCodeFile} from './utils.js'
 
-import Template from './thirdparty/template.js'
 import fs from 'node:fs'
 import {transpileFile} from 'ts-to-jsdoc'
 
@@ -19,12 +19,13 @@ export abstract class BaseCommand extends Command {
 
   protected abstract type: string
 
-  protected writeFile(
+  protected writeTemplatedFile(
     name: string,
     fileName: string,
     dst: string | string[],
     templateFile: string | string[],
     js: boolean,
+    templateData: TemplateData = {},
   ): void {
     const file = projectPath('src', ...this.toStringArray(dst), `${fileName}.ts`)
     const tpl = new Template({
@@ -37,6 +38,7 @@ export abstract class BaseCommand extends Command {
       camelCaseName: camelCase(name),
       name,
       pascalCaseName: pascalCase(name),
+      ...templateData,
     })
 
     if (js) {

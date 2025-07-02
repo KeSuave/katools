@@ -27,7 +27,7 @@ import fs from 'node:fs/promises'
 /**
  * Type alias for data objects where keys are strings and values can be of any type.
  */
-type Data = Record<string, unknown>
+export type TemplateData = Record<string, unknown>
 
 /**
  * Interface for constructor options, allowing customization of template delimiters and escape behavior.
@@ -51,7 +51,7 @@ export interface ConstructorOptions {
  * Interface for the compiled function, which takes a data object and an escape function, and returns a rendered string.
  */
 export interface CompiledFunction {
-  (data: Data, escape: (str: object | string) => string): string
+  (data: TemplateData, escape: (str: object | string) => string): string
 }
 
 /**
@@ -82,7 +82,7 @@ export default class Template {
    * @param data - The data object used to populate the template.
    * @returns The rendered string.
    */
-  render(str: string, data: Data): string {
+  render(str: string, data: TemplateData): string {
     return str.replace(this.reg, (match, key: string): string => {
       let value: unknown = data
       for (const k of key.replaceAll(' ', '').split('.')) {
@@ -90,7 +90,7 @@ export default class Template {
       }
 
       if (value === undefined) return match
-      return this.escape(value as Data | string)
+      return this.escape(value as TemplateData | string)
     })
   }
 
@@ -115,7 +115,7 @@ export default class Template {
    * @param data - The data object used to populate the template.
    * @returns The rendered string.
    */
-  renderCompiled(compiled: CompiledFunction, data: Data): string {
+  renderCompiled(compiled: CompiledFunction, data: TemplateData): string {
     return compiled(data, this.escape.bind(this))
   }
 
@@ -125,7 +125,7 @@ export default class Template {
    * @param data - The data object used to populate the template.
    * @returns The rendered string.
    */
-  async renderFile(path: string, data: Data): Promise<string> {
+  async renderFile(path: string, data: TemplateData): Promise<string> {
     if (this.cache.has(path)) {
       return this.renderCompiled(this.cache.get(path)!, data)
     }

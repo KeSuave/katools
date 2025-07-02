@@ -31,7 +31,7 @@ export default class Entity extends BaseCommand {
 
     this.checkFolderStructure(dirPath)
 
-    this.writeFile(args.name, args.name, dir, ['entities', 'entity.ts.template'], javascript)
+    this.writeTemplatedFile(args.name, args.name, dir, ['entities', 'entity.ts'], javascript)
   }
 
   private checkFolderStructure(dir: string[]): void {

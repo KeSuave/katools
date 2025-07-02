@@ -48,8 +48,8 @@ export default class Plugin extends BaseCommand {
   private writeNewPlugin(name: string, js: boolean): void {
     fs.mkdirSync(projectPath('src', 'plugins', name))
 
-    this.writeFile(name, 'index', ['plugins', name], ['plugins', 'index.ts.template'], js)
-    this.writeFile(name, name, ['plugins', name], ['plugins', 'base.ts.template'], js)
+    this.writeTemplatedFile(name, 'index', ['plugins', name], ['plugins', 'index.ts'], js)
+    this.writeTemplatedFile(name, name, ['plugins', name], ['plugins', 'base.ts'], js)
   }
 
   private addPluginToManager(name: string, js: boolean): void {

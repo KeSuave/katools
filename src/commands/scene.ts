@@ -22,7 +22,7 @@ export default class Scene extends BaseCommand {
 
     this.checkFolderStructure(flags.javascript)
 
-    this.writeFile(args.name, args.name, ['scenes'], ['scenes', 'base.ts.template'], flags.javascript)
+    this.writeTemplatedFile(args.name, args.name, ['scenes'], ['scenes', 'base.ts'], flags.javascript)
     this.addSceneToManager(args.name, flags.javascript)
   }
 

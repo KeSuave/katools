@@ -3,10 +3,9 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 import {confirm, input, number} from '@inquirer/prompts'
-import {transpileFile} from 'ts-to-jsdoc'
 import {BaseCommand} from '../base-command.js'
 import Template from '../thirdparty/template.js'
-import {projectPath, templatesPath, writeCodeFile} from '../utils.js'
+import {projectPath} from '../utils.js'
 
 interface GameContextOptions {
   width: number
@@ -94,42 +93,35 @@ export default class Init extends BaseCommand {
   }
 
   private writeGameContext(options: GameContextOptions, js: boolean): void {
-    const templateContent = fs.readFileSync(templatesPath('context.ts.template'), 'utf8')
-    let content = this.tpl.render(templateContent, {
+    this.writeTemplatedFile('Context', 'context', '', 'context.ts', js, {
       width: options.width,
       height: options.height,
       letterbox: options.letterbox ? 'true' : 'false',
       debugKey: options.debugKey,
     })
-
-    if (js) {
-      content = transpileFile({code: content})
-    }
-
-    writeCodeFile(projectPath('src', 'context.ts'), content, js)
   }
 
   private writeSceneManager(js: boolean): void {
-    this.writeFile('Game Manager', 'index', 'scenes', ['scenes', 'manager.ts.template'], js)
+    this.writeTemplatedFile('Game Manager', 'index', 'scenes', ['scenes', 'manager.ts'], js)
   }
 
   private writeBootScene(js: boolean): void {
-    this.writeFile('Boot Scene', 'boot', 'scenes', ['scenes', 'boot.ts.template'], js)
+    this.writeTemplatedFile('Boot Scene', 'boot', 'scenes', ['scenes', 'boot.ts'], js)
   }
 
   private writeMenuScene(gameName: string, js: boolean): void {
-    this.writeFile('Menu Scene', 'menu', 'scenes', ['scenes', 'menu.ts.template'], js)
+    this.writeTemplatedFile('Menu Scene', 'menu', 'scenes', ['scenes', 'menu.ts'], js, {gameName})
   }
 
   private writeGameScene(js: boolean): void {
-    this.writeFile('Game Scene', 'game', 'scenes', ['scenes', 'game.ts.template'], js)
+    this.writeTemplatedFile('Game Scene', 'game', 'scenes', ['scenes', 'game.ts'], js)
   }
 
   private writeGameOverScene(js: boolean): void {
-    this.writeFile('Game Over Scene', 'gameOver', 'scenes', ['scenes', 'game-over.ts.template'], js)
+    this.writeTemplatedFile('Game Over Scene', 'gameOver', 'scenes', ['scenes', 'game-over.ts'], js)
   }
 
   private writePluginManager(js: boolean): void {
-    this.writeFile('Plugin Manager', 'index', 'plugins', ['plugins', 'manager.ts.template'], js)
+    this.writeTemplatedFile('Plugin Manager', 'index', 'plugins', ['plugins', 'manager.ts'], js)
   }
 }
