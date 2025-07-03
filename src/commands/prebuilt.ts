@@ -50,6 +50,8 @@ export default class Prebuilt extends BaseCommand {
           'A simple menu item that displays a label, changes color on hover, and triggers an action when clicked.',
         ],
         ['topDownMovement', 'Plugin', 'A plugin for handling top-down movement.'],
+        ['levelX', 'Plugin', 'A plugin intending to improve the level and tile components.'],
+        ['fps', 'Plugin', 'A plugin to keep track of fps without having to enter debug mode, which adds overhead.'],
       ]),
     )
   }
