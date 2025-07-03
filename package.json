@@ -13,6 +13,7 @@
     "@oclif/plugin-help": "^6",
     "@oclif/plugin-plugins": "^5",
     "change-case": "^5.4.4",
+    "table": "^6.9.0",
     "ts-to-jsdoc": "^2.4.0"
   },
   "devDependencies": {

@@ -1,4 +1,4 @@
-import {Args} from '@oclif/core'
+import {Args, Command} from '@oclif/core'
 import fs from 'node:fs'
 import {BaseCommand} from '../base-command.js'
 import {projectPath, writeCodeFile} from '../utils.js'
@@ -22,7 +22,7 @@ export default class Plugin extends BaseCommand {
     this.checkFolderStructure(args.name, flags.javascript)
 
     this.writeNewPlugin(args.name, flags.javascript)
-    this.addPluginToManager(args.name, flags.javascript)
+    Plugin.addPluginToManager(this, args.name, flags.javascript)
   }
 
   private checkFolderStructure(name: string, js: boolean): void {
@@ -52,7 +52,7 @@ export default class Plugin extends BaseCommand {
     this.writeTemplatedFile(name, name, ['plugins', name], ['plugins', 'base.ts'], js)
   }
 
-  private addPluginToManager(name: string, js: boolean): void {
+  public static addPluginToManager(cmd: Command, name: string, js: boolean): void {
     const file = projectPath('src', 'plugins', js ? 'index.js' : 'index.ts')
     const importLine = `import ${name}Plugin from './${name}';\n`
     const pluginLine = `  ${name}Plugin),\n`
@@ -64,7 +64,7 @@ export default class Plugin extends BaseCommand {
     if (data.includes('import')) {
       updatedData = data.replaceAll(/(import\s+[\S\s]*?\n)+/gm, (imports) => {
         if (imports.includes(importLine)) {
-          this.error(`The plugin ${name} is already imported in ${file}.`)
+          cmd.error(`The plugin ${name} is already imported in ${file}.`)
         }
 
         return `${imports}${importLine}`
@@ -76,7 +76,7 @@ export default class Plugin extends BaseCommand {
 
     updatedData = updatedData.replace(/export\s+default\s*\[([\S\s]*?)]/, (_match, plugins) => {
       if (plugins.includes(pluginLine)) {
-        this.error(`The plugin ${name} is already exported in ${file}.`)
+        cmd.error(`The plugin ${name} is already exported in ${file}.`)
       }
 
       const items = plugins.split(',').map((item: string) => item.trim())
@@ -98,6 +98,6 @@ export default class Plugin extends BaseCommand {
 
     writeCodeFile(file, updatedData, js)
 
-    this.log(`Plugin ${name} has been added to ${file}`)
+    cmd.log(`Plugin ${name} has been added to ${file}`)
   }
 }

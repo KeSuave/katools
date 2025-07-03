@@ -4,7 +4,6 @@ import path from 'node:path'
 
 import {confirm, input, number} from '@inquirer/prompts'
 import {BaseCommand} from '../base-command.js'
-import Template from '../thirdparty/template.js'
 import {projectPath} from '../utils.js'
 
 interface GameContextOptions {
@@ -15,11 +14,6 @@ interface GameContextOptions {
 }
 
 export default class Init extends BaseCommand {
-  private tpl = new Template({
-    close: '%>',
-    open: '<%',
-  })
-
   static override description = 'Initializes a new KAPLAY project.'
 
   static override examples = ['<%= config.bin %> <%= command.id %>']
