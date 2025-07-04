@@ -1,7 +1,7 @@
 import type { Anchor, GameObj, KAPLAYCtx, Vec2 } from "kaplay";
 
-import { type LevelXObj } from "../components/levelx";
-import type { TileXObj } from "../components/tilex";
+import { type LevelXObj } from "../components/levelX";
+import type { TileXObj } from "../components/tileX";
 import MergePolygons from "./polyMerger";
 
 export function getOffset(

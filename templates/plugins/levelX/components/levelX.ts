@@ -1,7 +1,7 @@
 import type { Comp, CompList, GameObj, KAPLAYCtx, PosComp, Vec2 } from "kaplay";
 import { aStar, tilesInRange } from "../utils/path";
 import { generatePolygonsFromLevelX } from "../utils/shapes";
-import { type TileXComp, type TileXObj, tileX } from "./tilex";
+import { type TileXComp, type TileXObj, tileX } from "./tileX";
 
 export type LevelXTileFunc = (
   localPos: Vec2,

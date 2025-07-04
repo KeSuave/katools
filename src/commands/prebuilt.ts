@@ -2,6 +2,8 @@ import {Args, Flags} from '@oclif/core'
 import fs from 'node:fs'
 import {table} from 'table'
 import {BaseCommand} from '../base-command.js'
+import {entitiesList} from '../prebuilt/entities.js'
+import {pluginList} from '../prebuilt/plugins.js'
 import {projectPath, templatesPath} from '../utils.js'
 import Plugin from './plugin.js'
 
@@ -44,14 +46,8 @@ export default class Prebuilt extends BaseCommand {
     this.log(
       table([
         ['Name', 'Type', 'Description'],
-        [
-          'menuItem',
-          'Entity',
-          'A simple menu item that displays a label, changes color on hover, and triggers an action when clicked.',
-        ],
-        ['topDownMovement', 'Plugin', 'A plugin for handling top-down movement.'],
-        ['levelX', 'Plugin', 'A plugin intending to improve the level and tile components.'],
-        ['fps', 'Plugin', 'A plugin to keep track of fps without having to enter debug mode, which adds overhead.'],
+        ...Object.values(entitiesList).map((value) => [value.name, 'Entity', value.desc]),
+        ...Object.values(pluginList).map((value) => [value.name, 'Plugin', value.desc]),
       ]),
     )
   }
@@ -62,10 +58,12 @@ export default class Prebuilt extends BaseCommand {
     }
 
     if (type === 'entity') {
-      if (name.toLowerCase() === 'menuitem') {
+      if (name.toLocaleLowerCase() in entitiesList) {
+        const entity = entitiesList[name.toLocaleLowerCase()]
+
         this.checkEntities()
 
-        this.writeTemplatedFile('Menu Item', 'menuItem', ['entities'], ['entities', 'menuItem.ts'], js)
+        this.writeTemplatedFile(entity.name, entity.name, ['entities'], ['entities', `${name}.ts`], js)
 
         return
       }
@@ -74,10 +72,14 @@ export default class Prebuilt extends BaseCommand {
     }
 
     if (type === 'plugin') {
-      if (name.toLowerCase() === 'topdownmovement') {
-        this.checkPlugins('topDownMovement')
+      if (name.toLocaleLowerCase() in pluginList) {
+        const plugin = pluginList[name.toLocaleLowerCase()]
 
-        this.writeTemplatedFolder('Top Down Movement', 'topDownMovement', js)
+        this.checkPlugins(plugin.name)
+
+        this.writeTemplatedFolder(plugin.name, ['plugins', plugin.name], ['plugins', plugin.name], js)
+
+        Plugin.addPluginToManager(this, plugin.name, js)
 
         return
       }
@@ -114,15 +116,21 @@ export default class Prebuilt extends BaseCommand {
     fs.mkdirSync(projectPath('src', 'plugins', folder))
   }
 
-  private writeTemplatedFolder(name: string, folderName: string, js: boolean): void {
-    const files = fs.readdirSync(templatesPath('plugins', folderName))
+  private writeTemplatedFolder(name: string, dst: string[], templateFolder: string[], js: boolean): void {
+    const templates = fs.readdirSync(templatesPath(...templateFolder))
 
-    for (const file of files) {
-      const fileName = file.slice(0, -3)
+    for (const template of templates) {
+      if (fs.lstatSync(templatesPath(...templateFolder, template)).isDirectory()) {
+        fs.mkdirSync(projectPath('src', ...dst, template))
 
-      this.writeTemplatedFile(name, fileName, ['plugins', folderName], ['plugins', folderName, file], js)
+        this.writeTemplatedFolder(name, [...dst, template], [...templateFolder, template], js)
+
+        continue
+      }
+
+      const fileName = template.slice(0, -3)
+
+      this.writeTemplatedFile(name, fileName, dst, [...templateFolder, template], js)
     }
-
-    Plugin.addPluginToManager(this, folderName, js)
   }
 }

@@ -1,8 +1,8 @@
 import { DIRECTIONS_DIAGONAL, DIRECTIONS_NORMAL } from "./constants";
 
 import type { Vec2 } from "kaplay";
-import type { LevelXObj } from "../components/levelx";
-import type { TileXObj } from "../components/tilex";
+import type { LevelXObj } from "../components/levelX";
+import type { TileXObj } from "../components/tileX";
 import type { Direction } from "./types";
 
 export function forEachNeighbor(
