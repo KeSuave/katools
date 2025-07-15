@@ -5,4 +5,8 @@ export const entitiesList: PrebuiltList = {
     name: 'menuItem',
     desc: 'A simple menu item that displays a label, changes color on hover, and triggers an action when clicked.',
   },
+  parallax: {
+    name: 'parallax',
+    desc: 'Scrolls a sprite in an endless loop.',
+  },
 }
